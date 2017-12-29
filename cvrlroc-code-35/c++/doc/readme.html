@@ -1,0 +1,35 @@
+<h1>Downloading and Building the ROC Generator</h1>
+<p>
+<ol>
+	<li>Download the source code from <a href="http://www.sourceforge.net/projects/cvrlroc/">SourceForge</a>. This is done by checking out the code using SVN. SVN is available on CVRL and the other compute nodes. To check out the code, enter the following command :<br /><br />
+<code>svn co https://cvrlroc.svn.sourceforge.net/svnroot/cvrlroc cvrlroc</code><br /><br />
+This will create a directory called <code>cvrlroc</code> containing the code.</li><br />
+
+	<li>Navigate to the <code>c++</code> folder in the newly created <code>cvrlroc</code> directory. This directory contains all of the code needed by the ROC Generator. No other libraries are needed.</li><br />
+
+	<li>Execute <br /><br /><code>make</code><br /><br /> This will compile the code into executables found in the bin directory.</li><br />
+
+	<li>Navigate to the bin directory.</li><br /> 
+</ol>
+<br />
+</p>
+<h1>How to Generate a ROC Curve</h1>
+<p>The ROC generator is used as follows :
+<br /><code>./generateROC [scoreFile] [rocFile] [label] [numBoot] [numRocPoints]</code><br />
+Where the arguments are
+<ol>
+<li><code>[scoreFile]</code> is a file containing the match and nonmatch scores. Each line of score file should contain information about a single score in the form of <code>[match],[score]</code>where <code>[match]</code> is a 0 indicating nonmatch or a 1 indicating match, and <code>[score]</code> is simply the score. An example line would be <br /><code>1,0.124165</code><br /></li>
+<li><code>[rocFile]</code> is the output file that contains the R vectors necessary to plot the ROC curve. The following vectors are provided :
+<ol><li><code>meanTA</code> : the average TAR for each threshold used to compute the ROC curve.</li>
+<li><code>meanFA</code> : the average FAR for each threshold used to compute the ROC curve.</li>
+<li><code>stdTA</code> : the standard deviation of the TARs of the bootstraps at each point.  If enough bootstraps are used, plotting error bars of two standard deviations closely approximates a 95% confidence interval.</li>
+<li><code>stdFA</code> : the standard deviation of the FARs.</li>
+<li><code>CITA_low</code> : The TAR at the 5% level of the bootstrap distribution for each ROC point.</li>
+<li><code>CITA_high</code> : The TAR at the 95% level of the bootstrap distribution for each ROC point.</li> 
+<li><code>CIFA_low</code> : The FAR at the 5% level of the bootstrap distribution for each ROC point.</li>
+<li><code>CIFA_high</code> : The FAR at the 95% level of the bootstrap distribution for each ROC point.</li> 
+</ol>
+<li><code>[label]</code> : a label appended to each of the above R vectors. This allows multiple ROC R files to be source by a single R script for plotting.</li>
+<li><code>[numBoot]</code> : the number of bootstraps to perform. </li>
+<li><code>[numRocPoints]</code> : the number of points desired on the each ROC curve.
+</ol>
